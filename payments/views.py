@@ -133,9 +133,9 @@ def subscribe(request, form_class=PlanForm):
             customer.subscribe(form.cleaned_data["plan"])
             data["form"] = form_class()
             try:
-                location = form.cleaned_data.get("location")
+                location = reverse(form.cleaned_data["location"])
             except KeyError:
-                data["location"] = reverse("payments_history")
+                location = reverse("payments_history")
             data["location"] = location
         except stripe.StripeError as e:
             data["form"] = form

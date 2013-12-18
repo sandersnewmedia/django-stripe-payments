@@ -133,7 +133,7 @@ def subscribe(request, form_class=PlanForm):
             customer.subscribe(form.cleaned_data["plan"])
             data["form"] = form_class()
             try:
-                location = reverse(form.cleaned_data["location"])
+                location = reverse(request.POST["location"])
             except KeyError:
                 location = reverse("payments_history")
             data["location"] = location

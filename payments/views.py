@@ -132,7 +132,11 @@ def subscribe(request, form_class=PlanForm):
             customer.update_card(request.POST.get("stripe_token"))
             customer.subscribe(form.cleaned_data["plan"])
             data["form"] = form_class()
-            data["location"] = reverse("payments_history")
+            try:
+                location = form.cleaned_data.get("location")
+            except KeyError:
+                data["location"] = reverse("payments_history")
+            data["location"] = location
         except stripe.StripeError as e:
             data["form"] = form
             try:
